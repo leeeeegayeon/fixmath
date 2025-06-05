@@ -2,6 +2,7 @@ import os
 import json
 import base64
 import requests
+import sympy as sp
 from flask import Flask, request, jsonify
 from openai import OpenAI, AuthenticationError, RateLimitError, APIConnectionError
 from werkzeug.utils import secure_filename
@@ -48,6 +49,16 @@ def load_problem_data(json_path, problem_number, subject):
             (item for item in data if item['problem_number'] == problem_number and item['subject'] == subject),
             None
         )
+        
+# 사용자 풀이를 수식으로 계산
+def evaluate_expression(expr):
+    try:
+        # sympy로 파싱 및 계산
+        result = sp.sympify(expr).evalf()
+        return float(result)
+    except Exception as e:
+        print(f"계산 실패: {e}")
+        return None
 
 
 # GPT 피드백 생성
