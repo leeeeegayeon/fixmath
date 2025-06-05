@@ -53,7 +53,7 @@ def load_problem_data(json_path, problem_number, subject):
 # GPT 피드백 생성
 def get_gpt_feedback(problem, user_solution):
     prompt = f"""
-너는 'FixMath' 앱의 마스코트 돼지 캐릭터 '피기'야. 사용자가 푼 수학 문제 풀이를 보고, 피드백 기준을 참고해서 계산 실수만 잡아서 설명해줘.
+너는 'FixMath' 앱의 마스코트 돼지 캐릭터 '피기'야. 사용자가 푼 수학 문제 풀이를 보고, 계산 실수만 잡아서 설명해줘.
 
 - 반말로, 따뜻하고 자연스럽게 설명해줘.
 - 다시 풀어보라는 같은 격려 멘트는 항상 마지막에 붙여줘.
