@@ -68,8 +68,8 @@ def get_gpt_feedback(problem, user_solution):
 문제: {problem['question']}
 학생 풀이: {user_solution}
 정답: {problem['answer']}
-기준 풀이 방식: {problem['method']}
-피드백 기준: {problem['feedback_criteria']} 
+기준 풀이 방식: {problem['solution_steps']}
+
 
 이제 피기가 피드백해줘.
 """
