@@ -3,8 +3,8 @@ import json
 import base64
 import requests
 from flask import Flask, request, jsonify
-from werkzeug.utils import secure_filename
 from openai import OpenAI, AuthenticationError, RateLimitError, APIConnectionError
+from werkzeug.utils import secure_filename
 from dotenv import load_dotenv
 
 # .env 불러오기
@@ -60,8 +60,10 @@ def get_gpt_feedback(problem, user_solution):
     try:
         response = client.chat.completions.create(
             model="gpt-4o-mini",
-            messages=[{"role": "system", "content": "당신은 수학 풀이 피드백을 작성하는 AI입니다."},
-                      {"role": "user", "content": prompt}],
+            messages=[
+                {"role": "system", "content": "당신은 수학 풀이 피드백을 작성하는 AI입니다."},
+                {"role": "user", "content": prompt}
+            ],
             temperature=0.7,
         )
         return response.choices[0].message.content.strip()
@@ -117,27 +119,7 @@ def analyze():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# 한글 포함 여부 확인 및 안전한 파일명 변환
-@app.route("/check_filename", methods=["POST"])
-def check_filename():
-    filename = "2022_6_공통_1.png"
-    
-    # 한글 포함 여부 확인
-    if not all(ord(c) < 128 for c in filename):  # 한글이 포함된 경우
-        result = f"한글 포함: {filename}"
-    else:
-        result = f"한글 없음: {filename}"
-    
-    # secure_filename 사용
-    safe_name = secure_filename(filename)
-    
-    # 결과를 프론트엔드에 반환
-    return jsonify({
-        "original_filename": filename,
-        "safe_filename": safe_name,
-        "result": result
-    })
-
-# 서버 시작 (로컬에서 테스트용)
+# 서버 시작 (Render에서는 필요 없음, 로컬 디버깅용)
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
