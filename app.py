@@ -104,7 +104,7 @@ def analyze():
         # 문제 데이터 로드
         problem = load_problem_data(json_path, problem_number)
         if not problem or problem["subject"] != subject:
-            return jsonify({"error": f"{problem_number}, {json_path}, {problem["subject"]}, {subject}")), 404
+            return jsonify({"error": f'{problem_number}, {json_path}, {problem["subject"]}, {subject}'}), 404
 
         # GPT 피드백
         feedback = get_gpt_feedback(problem, user_solution)
