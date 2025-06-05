@@ -41,21 +41,32 @@ def mathpix_ocr(image_path):
     return result.get("text", "").strip()
 
 # 문제 데이터 로드
-def load_problem_data(json_path, problem_number):
+def load_problem_data(json_path, problem_number, subject):
     with open(json_path, 'r', encoding='utf-8') as file:
         data = json.load(file)
-        return next((item for item in data if item['problem_number'] == problem_number), None)
+        return next(
+            (item for item in data if item['problem_number'] == problem_number and item['subject'] == subject),
+            None
+        )
+
 
 # GPT 피드백 생성
 def get_gpt_feedback(problem, user_solution):
     prompt = f"""
+다음은 학생이 푼 수학 문제입니다.
+
 문제: {problem['question']}
 학생 풀이: {user_solution}
 정답: {problem['answer']}
 기준 풀이 방식: {problem['method']}
 피드백 기준: {problem['feedback_criteria']}
 
-학생 풀이를 기준으로 올바른 풀이인지 판단하고, 피드백을 작성해 주세요.
+너는 학생의 수학 선생님이다. 학생이 작성한 풀이를 자세히 읽고 다음과 같이 피드백을 작성해줘.
+
+- 만약 학생의 풀이가 정확하면, "풀이가 아주 잘 되었어요!"처럼 칭찬과 격려의 말을 함께 해줘. 그리고 **같은 불필요한 기호들은 빼고 설명해줘.
+- 만약 학생의 풀이에 틀린 부분이나 부족한 부분이 있다면, "이 부분에서 ~~한 조건을 지키지 못해서 조금 아쉬워요. ~~를 이렇게 고치면 더 좋은 풀이가 될 거예요." 처럼 다정하고 친절하게 설명해줘.
+- 가능한 한 학생이 위축되지 않도록 따뜻한 말투로 설명해줘.
+- 단답형이 아니라 충분한 설명을 담은 선생님의 말투로 작성해줘.
 """
     try:
         response = client.chat.completions.create(
