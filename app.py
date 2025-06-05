@@ -113,7 +113,7 @@ def analyze():
         user_solution = mathpix_ocr(save_path)
 
         # 문제 데이터 로드
-        problem = load_problem_data(json_path, problem_number)
+        problem = load_problem_data(json_path, problem_number, subject)
         if not problem or problem["subject"] != subject:
             return jsonify({"error": f'{problem_number}, {json_path}, {problem["subject"]}, {subject}'}), 404
 
