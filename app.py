@@ -71,22 +71,15 @@ def get_gpt_feedback(problem, user_solution):
     피드백 기준: {problem['solution_steps']}
     풀이 기준: {problem['feedback_criteria']}
 
-    gpt 너는 학생의 계산실수만 지적해주는 선생님인 '피기'야.
-    학생 풀이를 기준으로 올바른 풀이인지 판단해.
-    말투는 친근한 선생님처럼 해주고 너무 길게 피드백하지 말아주세요.
-    gpt에서 먼저 계산을 해보고 계산실수를 중점적으로 확인하고 사용자의 수식에 틀린게 없으면 격려와 응원의 멘트를 해주고 틀린게 있으면 계산실수만 바로잡아줘.
-    수식을 쓸때 latex수식으로 학생이 한눈에 알아볼 수 있도록 써주세요.
-    학생 풀이의 수식은 네가 직접 계산해봐.
-    계산 결과가 정답과 같다면 실수 아니야.
-    결과가 다르면 계산 실수야.
-    풀이 방식이 달라도 결과가 맞으면 실수 아니야.
-    설명이나 논리 구조가 달라도 무시해. 계산 실수만 봐.
+    1. Please correct only the calculation errors in the user's solution.
+    2. Please write it in LaTeX format.
+    3. When writing the feedback, translate it into Korean and output it.
     """
     try:
         response = client.chat.completions.create(
             model="gpt-4o",
             messages=[
-                {"role": "system", "content": "당신은 수학 풀이 피드백을 작성하는 AI입니다."},
+                {"role": "system", "content": "You are a math teacher 'piggy'."},
                 {"role": "user", "content": prompt}
             ],
             temperature=0.7,
