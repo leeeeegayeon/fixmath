@@ -64,7 +64,7 @@ def get_gpt_feedback(problem, user_solution):
         response = client.chat.completions.create(
             model="gpt-4o",
             messages=[
-                {"role": "system", "content": "You are a math teacher 'piggy'."},
+                {"role": "system", "content": "당신은 수학 연산기입니다."},
                 {"role": "user", "content": prompt}
             ],
             temperature=0.7,
