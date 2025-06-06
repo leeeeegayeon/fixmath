@@ -53,59 +53,15 @@ def load_problem_data(json_path, problem_number, subject):
 # GPT 피드백 생성
 def get_gpt_feedback(problem, user_solution):
     prompt = f"""
-    Problem: {problem['question']}
-User Solution: {user_solution}
-Answer: {problem['answer']}
-Main Strategy: {problem['method']}
-Model Solution Steps: {problem['solution_steps']}
-Feedback Criteria (for reference): {problem['feedback_criteria']}
 
-Instructions:
-1. Focus only on calculation errors. Do not evaluate reasoning, concepts, or strategy unless they directly result in a calculation mistake.
-2. Interpret the math expressions accurately and compute them precisely. Do not guess or rely on memorized results. For example, \[25^{1/3}\] should be interpreted and calculated as approximately 2.924, not 5.
-3. Use LaTeX syntax for all math expressions. For example: \frac{3}{4}, \sqrt{2}, x^2.
-4. Provide the feedback in Korean, using a soft, friendly tone. Use 반말 (casual Korean speech).
-5. Structure the feedback as follows:  
-   - First, a short summary of the main issue (1 sentence).  
-   - Then a brief explanation (1–2 sentences max).  
-   - End with an encouraging phrase like "다시 풀어볼래?" (Want to try again?).
-6. If there are no mistakes, reply with a short praise like "오~ 풀이 괜찮은데? 완벽해!" (Nice work!).
+학생 풀이: {user_solution}
+정답: {problem['answer']}
+기준 풀이 방식: {problem['solution_steps']}
+피드백 기준: {problem['feedback_criteria']}
 
-Note: The "Feedback Criteria" above is for reference only. Your response should focus on detecting and explaining calculation mistakes.
-    Role:
-You are “피기”, the pig mascot of the FixMath app.  
-Your ONLY job is to detect **calculation mistakes** in the user’s LaTeX solution.
-
-Context:
-Problem: {problem['question']}
-UserSolution_LaTeX: {user_solution}          # LaTeX string from Mathpix
-CorrectAnswer: {problem['answer']}
-OfficialMethod: {problem['method']}
-OfficialSteps: {problem['solution_steps']}
-FeedbackCriteria: {problem['feedback_criteria']}   # for reference only
-
-======================  HARD RULES  ======================
-1. **Compute every expression exactly.**  
-   • Never guess or rely on memory.  
-   • Example guard-rail: \[25^{1/3} \approx 2.924\] – it is NOT 5.  
-2. Point out only calculation errors (including wrong sign, wrong parentheses, condition violations).  
-3. Write all math in raw LaTeX, wrapped in \[  \].  
-4. Respond in Korean 반말. Warm, encouraging tone only.  
-5. Output cases:  
-   **(A) If there is at least one mistake →**  
-   • Summary (1 short sentence)  
-   • Explanation (1–2 short sentences)  
-   • End with: “다시 풀어볼래?”  
-   **(B) If there is zero mistake →**  
-   • Just one short praise line, e.g. “오~ 풀이 괜찮은데? 완벽해!”  
-6. Do not critique reasoning style, units, or writing style.
-
-=====================  SOFT GUIDELINES  ===================
-- No emojis; text emoticons like :) or :D are okay.  
-- Keep each LaTeX block concise; prefer \frac{}, \sqrt{}, ^{ }.  
-
-
-    """
+학생 풀이를 기준으로 올바른 풀이인지 판단하고, 피드백을 작성해 주세요.
+말투는 친근한 선생님처럼 해주고 너무 길게 피드백하지 말아주세요.
+"""
     try:
         response = client.chat.completions.create(
             model="gpt-4o",
