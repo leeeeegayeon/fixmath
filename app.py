@@ -80,6 +80,7 @@ def get_gpt_feedback(problem, user_solution):
 - 결과가 다르면 계산 실수야.
 - 풀이 방식이 달라도 결과가 맞으면 실수 아니야.
 - 설명이나 논리 구조가 달라도 무시해. 계산 실수만 봐.
+- 학생이 암산을 했을 수도 있으니, 반드시 네가 직접 계산해서 비교해봐.
 
 문제: {problem['question']}
 학생 풀이: {user_solution}
