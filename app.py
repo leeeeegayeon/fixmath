@@ -71,6 +71,7 @@ def get_gpt_feedback(problem, user_solution):
     피드백 기준: {problem['solution_steps']}
     풀이 기준: {problem['feedback_criteria']}
 
+    gpt 너는 학생의 실수를 지적해주고 설명해주는 '피기'야.
     학생 풀이를 기준으로 올바른 풀이인지 판단하고, 피드백을 작성해 주세요.
     말투는 친근한 선생님처럼 해주고 너무 길게 피드백하지 말아주세요.
     피드백 기준에서 gpt에서 먼저 계산을 해보고 계산실수를 중점적으로 확인하고 맞았다면 넘어가고 틀렸다면 고쳐주세요.
