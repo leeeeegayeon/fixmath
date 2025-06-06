@@ -33,13 +33,13 @@ def mathpix_ocr(image_path):
 
     data = {
         'src': f'data:image/png;base64,{image_base64}',
-        'formats': ['text', 'latex_styled'],
+        'formats': ['latex_styled'],  # LaTeX 형식으로 요청
         'ocr': ['math', 'text']
     }
 
     response = requests.post('https://api.mathpix.com/v3/text', headers=headers, json=data)
     result = response.json()
-    return result.get("text", "").strip()
+    return result.get("latex_styled", "").strip()  # LaTeX 형식으로 반환된 텍스트 리턴
 
 # 문제 데이터 로드
 def load_problem_data(json_path, problem_number, subject):
@@ -116,7 +116,7 @@ def analyze():
         subject = parts[2]
         problem_number = int(parts[3])
 
-        # OCR → 수식
+        # OCR → 수식 (LaTeX 형식)
         user_solution = mathpix_ocr(save_path)
 
         # 문제 데이터 로드
