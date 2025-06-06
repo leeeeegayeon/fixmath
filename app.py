@@ -1,4 +1,4 @@
-import os
+import osMore actions
 import json
 import base64
 import requests
@@ -7,7 +7,6 @@ from flask import Flask, request, jsonify
 from openai import OpenAI, AuthenticationError, RateLimitError, APIConnectionError
 from werkzeug.utils import secure_filename
 from dotenv import load_dotenv
-from sympy.parsing.latex import parse_latex
 
 # .env 불러오기
 load_dotenv()
@@ -50,45 +49,29 @@ def load_problem_data(json_path, problem_number, subject):
             (item for item in data if item['problem_number'] == problem_number and item['subject'] == subject),
             None
         )
-        
-# 사용자 풀이를 수식으로 계산
-def line_has_calc_error(latex_line):
-    # '=' 없는 줄은 패스
-    if '=' not in latex_line:
-        return False, None  
-
-    # 좌·우 뽑아서 여러 '='가 있으면 첫 번째만 비교
-    left_raw, right_raw = latex_line.split('=', 1)
-    try:
-        left_val  = sp.N(parse_latex(left_raw))
-        right_val = sp.N(parse_latex(right_raw))
-    except Exception as e:
-        # 파싱 실패 → GPT에게 넘겨서 설명하게 할 수 있으니 '에러'로 처리
-        return True, f"파싱 실패: {e}"
-
-    # 수치 오차 1e-6 허용
-    if abs(left_val - right_val) > 1e-6:
-        return True, f"{latex_line.strip()}  ⟹  {left_val} ≠ {right_val}"
-    return False, None
-
-
-# 전체 LaTeX(여러 줄)에서 오류 줄만 뽑기
-def detect_calc_errors(latex_text):
-    error_lines = []
-    # Mathpix는 줄 구분을 '\\n' 또는 '\\\\' 로 줄바꿈 줄 때가 있음
-    for raw in latex_text.replace('\\\\', '\n').splitlines():
-        line = raw.strip()
-        if not line:
-            continue
-        is_err, msg = line_has_calc_error(line)
-        if is_err:
-            error_lines.append(msg or line)
-    return error_lines
-
 
 # GPT 피드백 생성
 def get_gpt_feedback(problem, user_solution):
     prompt = f"""
+    Problem: {problem['question']}
+User Solution: {user_solution}
+Answer: {problem['answer']}
+Main Strategy: {problem['method']}
+Model Solution Steps: {problem['solution_steps']}
+Feedback Criteria (for reference): {problem['feedback_criteria']}
+
+Instructions:
+1. Focus only on calculation errors. Do not evaluate reasoning, concepts, or strategy unless they directly result in a calculation mistake.
+2. Interpret the math expressions accurately and compute them precisely. Do not guess or rely on memorized results. For example, \[25^{1/3}\] should be interpreted and calculated as approximately 2.924, not 5.
+3. Use LaTeX syntax for all math expressions. For example: \frac{3}{4}, \sqrt{2}, x^2.
+4. Provide the feedback in Korean, using a soft, friendly tone. Use 반말 (casual Korean speech).
+5. Structure the feedback as follows:  
+   - First, a short summary of the main issue (1 sentence).  
+   - Then a brief explanation (1–2 sentences max).  
+   - End with an encouraging phrase like "다시 풀어볼래?" (Want to try again?).
+6. If there are no mistakes, reply with a short praise like "오~ 풀이 괜찮은데? 완벽해!" (Nice work!).
+
+Note: The "Feedback Criteria" above is for reference only. Your response should focus on detecting and explaining calculation mistakes.
     Role:
 You are “피기”, the pig mascot of the FixMath app.  
 Your ONLY job is to detect **calculation mistakes** in the user’s LaTeX solution.
@@ -141,58 +124,49 @@ FeedbackCriteria: {problem['feedback_criteria']}   # for reference only
 
 # Flask API endpoint
 @app.route("/analyze", methods=["POST"])
-@app.route("/analyze", methods=["POST"])
 def analyze():
     try:
-        # 1) 파일 + 파일명
+        # 파일과 파일명 받기
         image_file = request.files.get("file")
-        filename   = request.form.get("filename")      # ex: "2022_6_공통_7.png"
+        filename = request.form.get("filename")  # ex: "2022_6_공통_7.png"
+
         if not image_file or not filename:
             return jsonify({"error": "파일 또는 파일명이 없습니다."}), 400
 
-        # 2) 저장
+        # 저장
         safe_name = secure_filename(filename)
         save_path = os.path.join(UPLOAD_FOLDER, safe_name)
         image_file.save(save_path)
 
-        # 3) 파일명 파싱
+        # 파일명 파싱
         parts = safe_name.replace(".png", "").split("_")
         if len(parts) != 4:
             return jsonify({"error": "파일명 형식 오류"}), 400
-        json_path      = f"{parts[0]}_{parts[1]}.json"   # ex: 2022_6.json
-        subject        = parts[2]
+
+        json_path = f"{parts[0]}_{parts[1]}.json"  # ex: 2022_6.json
+        subject = parts[2]
         problem_number = int(parts[3])
 
-        # 4) 문제 데이터 로드
-        problem = load_problem_data(json_path, problem_number, subject)
-        if not problem:
-            return jsonify({"error": "문제 데이터를 찾을 수 없습니다."}), 404
-
-        # 5) OCR → LaTeX
+        # OCR → 수식 (LaTeX 형식)
         user_solution = mathpix_ocr(save_path)
 
-        # 6) 계산 실수 자동 탐지
-        calc_errors = detect_calc_errors(user_solution)          # list[str]
-        errors_txt  = "\n".join(calc_errors) if calc_errors else "NONE"
+        # 문제 데이터 로드
+        problem = load_problem_data(json_path, problem_number, subject)
+        if not problem or problem["subject"] != subject:
+            return jsonify({"error": f'{problem_number}, {json_path}, {problem["subject"]}, {subject}'}), 404
 
-        # 7) GPT 피드백
-        feedback = get_gpt_feedback(
-            problem,
-            user_solution + "\n\n%calc_errors%\n" + errors_txt
-        )
+        # GPT 피드백
+        feedback = get_gpt_feedback(problem, user_solution)
         if not feedback:
             return jsonify({"error": "GPT 피드백 실패"}), 500
 
-        # 8) 응답
         return jsonify({
             "user_solution": user_solution,
-            "calc_errors"  : calc_errors,  # 디버깅용으로 같이 전달
-            "feedback"     : feedback
+            "feedback": feedback
         })
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
 
 # 서버 시작 (Render에서는 필요 없음, 로컬 디버깅용)
 if __name__ == "__main__":
