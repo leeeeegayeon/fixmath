@@ -83,7 +83,7 @@ def get_gpt_feedback(problem, user_solution):
     """
     try:
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-4o",
             messages=[
                 {"role": "system", "content": "당신은 수학 풀이 피드백을 작성하는 AI입니다."},
                 {"role": "user", "content": prompt}
