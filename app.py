@@ -56,10 +56,9 @@ def get_gpt_feedback(problem, user_solution):
 
 학생 풀이: {user_solution}
 정답: {problem['answer']}
-피드백 기준: {problem['feedback_criteria']}
 
-학생 풀이를 기준으로 올바른 풀이인지 판단하고, 피드백을 작성해 주세요.
-말투는 친근한 선생님처럼 해주고 너무 길게 피드백하지 말아주세요.
+학생 풀이를 기준으로 하고, 계산 실수 여부만 판단해주세요. 
+말투는 친근한 선생님처럼 해주고 너무 길게 말을 하지 말아주세요.
 """
     try:
         response = client.chat.completions.create(
