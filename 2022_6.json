@@ -2,7 +2,7 @@
   {
   "problem_number": 1,
   "subject": "S1",
-  "question": "(-√2)^(-1) × 8^(-2/3)의 값은?",
+  "question": "(-√2)^(4) × 8^(-2/3)의 값은?",
   "options": ["① 1", "② 2", "③ 3", "④ 4", "⑤ 5"],
   "correct_option": "①",
   "answer": ["1"],
