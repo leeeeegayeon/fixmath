@@ -64,16 +64,26 @@ def evaluate_expression(expr):
 # GPT 피드백 생성
 def get_gpt_feedback(problem, user_solution):
     prompt = f"""
-    문제: {problem['question']}
-    학생 풀이: {user_solution}
-    채점 기준: {problem['answer']}
-    큰 기준:{problem['method']}
-    피드백 기준: {problem['solution_steps']}
-    풀이 기준: {problem['feedback_criteria']}
+    Problem: {problem['question']}
+User Solution: {user_solution}
+Answer: {problem['answer']}
+Main Strategy: {problem['method']}
+Model Solution Steps: {problem['solution_steps']}
+Feedback Criteria (for reference): {problem['feedback_criteria']}
 
-    1. Please correct only the calculation errors in the user's solution.
-    2. Please write it in LaTeX format.
-    3. When writing the feedback, translate it into Korean and output it.
+Instructions:
+1. Focus only on calculation errors. Do not evaluate reasoning, concepts, or strategy unless they directly result in a calculation mistake.
+2. Interpret the math expressions accurately and compute them precisely. Do not guess or rely on memorized results. For example, \[25^{1/3}\] should be interpreted and calculated as approximately 2.924, not 5.
+3. Use LaTeX syntax for all math expressions. For example: \frac{3}{4}, \sqrt{2}, x^2.
+4. Provide the feedback in Korean, using a soft, friendly tone. Use 반말 (casual Korean speech).
+5. Structure the feedback as follows:  
+   - First, a short summary of the main issue (1 sentence).  
+   - Then a brief explanation (1–2 sentences max).  
+   - End with an encouraging phrase like "다시 풀어볼래?" (Want to try again?).
+6. If there are no mistakes, reply with a short praise like "오~ 풀이 괜찮은데? 완벽해!" (Nice work!).
+
+Note: The "Feedback Criteria" above is for reference only. Your response should focus on detecting and explaining calculation mistakes.
+
     """
     try:
         response = client.chat.completions.create(
