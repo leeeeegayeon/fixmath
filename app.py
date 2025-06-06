@@ -56,7 +56,6 @@ def get_gpt_feedback(problem, user_solution):
 
 학생 풀이: {user_solution}
 정답: {problem['answer']}
-기준 풀이 방식: {problem['solution_steps']}
 피드백 기준: {problem['feedback_criteria']}
 
 학생 풀이를 기준으로 올바른 풀이인지 판단하고, 피드백을 작성해 주세요.
