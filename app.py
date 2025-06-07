@@ -56,7 +56,6 @@ def get_gpt_feedback( user_solution, answer):
 
 학생 풀이: {user_solution}
 정답: {'answer'}
-풀이과정 확인:{'solution_steps'}
 
 1. 학생 풀이를 기준으로 피드백해주세요.
 2. 말투는 친근한 선생님처럼 해주세요.
