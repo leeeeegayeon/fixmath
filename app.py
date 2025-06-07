@@ -1,12 +1,14 @@
-import osMore actions
+import os
 import json
 import base64
 import requests
 import sympy as sp
+import re
 from flask import Flask, request, jsonify
 from openai import OpenAI, AuthenticationError, RateLimitError, APIConnectionError
 from werkzeug.utils import secure_filename
 from dotenv import load_dotenv
+from sympy.parsing.latex import parse_latex
 
 # .env 불러오기
 load_dotenv()
@@ -39,7 +41,7 @@ def mathpix_ocr(image_path):
 
     response = requests.post('https://api.mathpix.com/v3/text', headers=headers, json=data)
     result = response.json()
-    return result.get("latex_styled", "").strip()  # LaTeX 형식으로 반환된 텍스트 리턴
+    return result.get("latex_styled", "").strip()
 
 # 문제 데이터 로드
 def load_problem_data(json_path, problem_number, subject):
@@ -50,19 +52,52 @@ def load_problem_data(json_path, problem_number, subject):
             None
         )
 
-# GPT 피드백 생성
-def get_gpt_feedback( user_solution, answer):
-    prompt = f"""
+# 변수 자동 정의 (x, y_1, a_2 등)
+def define_symbols_from_latex(latex_text):
+    tokens = re.findall(r"[a-zA-Z_][a-zA-Z_0-9]*", latex_text)
+    reserved = {"frac", "sqrt", "sum", "int", "lim", "log", "sin", "cos", "tan", "dx", "dy", "dt", "d", "ln", "pi", "infty", "left", "right"}
+    symbols_needed = sorted(set(tokens) - reserved)
+    symbol_dict = {name: sp.Symbol(name) for name in symbols_needed}
+    globals().update(symbol_dict)
+    return symbol_dict
 
+# 계산 실수 검출
+def line_has_calc_error(latex_line):
+    if '=' not in latex_line:
+        return False, None
+    try:
+        left_raw, right_raw = latex_line.split('=', 1)
+        left_val = sp.N(parse_latex(left_raw))
+        right_val = sp.N(parse_latex(right_raw))
+        if abs(left_val - right_val) > 1e-6:
+            return True, f"{latex_line.strip()}  \u27A1  {left_val} \u2260 {right_val}"
+        else:
+            return False, None
+    except Exception as e:
+        return True, f"\u26A0\ufe0f 파싱 실패: {latex_line.strip()}  ({e})"
+
+def detect_calc_errors(latex_text):
+    error_lines = []
+    lines = latex_text.replace('\\\n', '\n').replace('\\', '\n').splitlines()
+    for raw in lines:
+        line = raw.strip()
+        if not line:
+            continue
+        is_err, msg = line_has_calc_error(line)
+        if is_err:
+            error_lines.append(msg or line)
+    return error_lines
+
+# GPT 피드백 생성
+def get_gpt_feedback(user_solution, answer):
+    prompt = f"""
 학생 풀이: {user_solution}
-정답: {'answer'}
+정답: {answer}
 
 - 학생 풀이만 보고 결과가 맞는지 확인하세요.
 - 풀이과정을 추측하거나 추론하지 마세요.
 - 오직 최종 계산결과만 비교해서 계산 실수인지 아닌지만 판단하세요.
 - 학생 풀이가 몇 단계를 생략했더라도, 중간 과정은 추측하지 마세요.
-
-
 """
     try:
         response = client.chat.completions.create(
@@ -84,49 +119,46 @@ def get_gpt_feedback( user_solution, answer):
 @app.route("/analyze", methods=["POST"])
 def analyze():
     try:
-        # 파일과 파일명 받기
         image_file = request.files.get("file")
-        filename = request.form.get("filename")  # ex: "2022_6_공통_7.png"
+        filename = request.form.get("filename")
 
         if not image_file or not filename:
             return jsonify({"error": "파일 또는 파일명이 없습니다."}), 400
 
-        # 저장
         safe_name = secure_filename(filename)
         save_path = os.path.join(UPLOAD_FOLDER, safe_name)
         image_file.save(save_path)
 
-        # 파일명 파싱
         parts = safe_name.replace(".png", "").split("_")
         if len(parts) != 4:
             return jsonify({"error": "파일명 형식 오류"}), 400
 
-        json_path = f"{parts[0]}_{parts[1]}.json"  # ex: 2022_6.json
+        json_path = f"{parts[0]}_{parts[1]}.json"
         subject = parts[2]
         problem_number = int(parts[3])
 
-        # OCR → 수식 (LaTeX 형식)
         user_solution = mathpix_ocr(save_path)
+        define_symbols_from_latex(user_solution)
+        calc_errors = detect_calc_errors(user_solution)
 
-        # 문제 데이터 로드
         problem = load_problem_data(json_path, problem_number, subject)
         if not problem or problem["subject"] != subject:
             return jsonify({"error": f'{problem_number}, {json_path}, {problem["subject"]}, {subject}'}), 404
 
-        # GPT 피드백
-        feedback = get_gpt_feedback(problem, user_solution)
+        feedback = get_gpt_feedback(user_solution, problem["answer"])
         if not feedback:
             return jsonify({"error": "GPT 피드백 실패"}), 500
 
         return jsonify({
             "user_solution": user_solution,
+            "calc_errors": calc_errors,
             "feedback": feedback
         })
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# 서버 시작 (Render에서는 필요 없음, 로컬 디버깅용)
+# 서버 시작
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
