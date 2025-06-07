@@ -58,15 +58,16 @@ def get_gpt_feedback( user_solution, answer):
 정답: {'answer'}
 계산실수 여부 확인:{'solution_steps'}
 
-학생 풀이를 기준으로 하고, 계산 실수 여부만 판단해주세요. 
-말투는 친근한 선생님처럼 해주고 너무 길게 말을 하지 말아주세요.
-다시 풀어보라는 말 하지 말아주세요.
+1. 학생 풀이를 기준으로 피드백해주세요.
+2. 말투는 친근한 선생님처럼 해주고 너무 길게 말을 하지 말아주세요.
+3. 계산이 맞았다면 다시 풀어보라는 말 하지 말고 격려멘트 한줄 달아주세요.
+
 """
     try:
         response = client.chat.completions.create(
             model="gpt-4o",
             messages=[
-                {"role": "system", "content": "너는 계산실수만 잡아주는 ai야."},
+                {"role": "system", "content": "너는 수학 선생님이야."},
                 {"role": "user", "content": prompt}
             ],
             temperature=0,
