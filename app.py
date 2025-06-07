@@ -51,11 +51,12 @@ def load_problem_data(json_path, problem_number, subject):
         )
 
 # GPT 피드백 생성
-def get_gpt_feedback(problem, user_solution):
+def get_gpt_feedback( user_solution, answer):
     prompt = f"""
 
 학생 풀이: {user_solution}
-정답: {problem['answer']}
+정답: {'answer'}
+계산실수 여부 확인:{'solution_steps'}
 
 학생 풀이를 기준으로 하고, 계산 실수 여부만 판단해주세요. 
 말투는 친근한 선생님처럼 해주고 너무 길게 말을 하지 말아주세요.
