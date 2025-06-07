@@ -67,7 +67,7 @@ def get_gpt_feedback(problem, user_solution):
                 {"role": "system", "content": "당신은 수학 연산기입니다."},
                 {"role": "user", "content": prompt}
             ],
-            temperature=0.7,
+            temperature=0,
         )
         return response.choices[0].message.content.strip()
     except (AuthenticationError, RateLimitError, APIConnectionError) as e:
