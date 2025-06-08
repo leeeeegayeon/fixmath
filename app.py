@@ -52,61 +52,19 @@ def load_problem_data(json_path, problem_number, subject):
             None
         )
 
-def define_symbols_from_latex(latex_text):
-    tokens = re.findall(r"[a-zA-Z_][a-zA-Z_0-9]*", latex_text)
-    reserved = {"frac", "sqrt", "sum", "int", "lim", "log", "sin", "cos", "tan", "dx", "dy", "dt", "d", "ln", "pi", "infty", "left", "right"}
-    symbols_needed = sorted(set(tokens) - reserved)
-    symbol_dict = {name: sp.Symbol(name) for name in symbols_needed}
-    globals().update(symbol_dict)
-    return symbol_dict
 
-def line_has_calc_error(latex_line):
-    if '=' not in latex_line:
-        return False, None
-    try:
-        left_raw, right_raw = latex_line.split('=', 1)
-        left_val = sp.N(parse_latex(left_raw))
-        right_val = sp.N(parse_latex(right_raw))
-        if abs(left_val - right_val) > 1e-6:
-            return True, f"{latex_line.strip()}  \u27A1  {left_val} \u2260 {right_val}"
-        else:
-            return False, None
-    except Exception as e:
-        return True, f"\u26A0\ufe0f 파싱 실패: {latex_line.strip()}  ({e})"
-
-def detect_calc_errors(latex_text):
-    error_lines = []
-    lines = latex_text.replace('\\\n', '\n').replace('\\', '\n').splitlines()
-    for raw in lines:
-        line = raw.strip()
-        if not line:
-            continue
-        is_err, msg = line_has_calc_error(line)
-        if is_err:
-            error_lines.append(msg or line)
-    return error_lines
-
-def get_gpt_feedback(user_solution, answer, calc_errors_text):
-    prompt = f"""
-학생 풀이: {user_solution}
-계산 결과 검토 결과:
-{calc_errors_text}
-
-정답: {answer}
-
-- 위의 학생 풀이와 자동 계산 결과를 참고해서, 계산 실수가 있는지 판단해줘.
-- 중간 과정은 추측하지 말고, 주어진 줄과 결과만 가지고 설명해줘.
-- 실수한 줄이 있다면 왜 틀렸는지 간단히 설명해줘.
-- 설명은 반말로 해줘.
-- 피드백을 할때 수식은 LaTex수식으로 변환해줘.
-"""
+def get_gpt_feedback(user_solution, answer):
+    messages = [
+        {"role": "system", "content": "너는 수학 선생님이야. 학생 풀이를 보고 계산 실수를 알려줘."},
+        {"role": "user", "content": f"학생 풀이:\n{user_solution}"},
+        {"role": "user", "content": f"계산 결과 검토 결과:\n{calc_errors_text}"},
+        {"role": "user", "content": f"정답: {answer}"},
+        {"role": "user", "content": "계산 실수가 있는 줄이 있다면 그 줄만 지적해줘. 중간 과정은 추측하지 말고, 반말로 간단히 설명해줘. 수식은 LaTeX으로 써줘."}
+    ]
     try:
         response = client.chat.completions.create(
-            model="gpt-4o",
-            messages=[
-                {"role": "system", "content": "너는 수학 선생님이야."},
-                {"role": "user", "content": prompt}
-            ],
+            model="gpt-4-turbo",
+            messages=messages,
             temperature=1,
         )
         return response.choices[0].message.content.strip()
@@ -138,9 +96,6 @@ def analyze():
         problem_number = int(parts[3])
 
         user_solution = mathpix_ocr(save_path)
-        define_symbols_from_latex(user_solution)
-        calc_errors = detect_calc_errors(user_solution)
-        errors_txt = "\n".join(calc_errors) if calc_errors else "없음"
 
         problem = load_problem_data(json_path, problem_number, subject)
         if not problem or problem["subject"] != subject:
