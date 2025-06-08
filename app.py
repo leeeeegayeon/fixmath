@@ -69,6 +69,7 @@ def get_gpt_feedback(user_solution, answer, calc_errors_text):
 - 설명은 반말로 해줘.
 - 피드백을 할때 수식은 LaTex수식으로 변환해줘.
 - 답변하기 전에 스스로 검토를 거쳐
+- 정답이면 다시풀어보라는 말은 하지 마
 """
     try:
         response = client.chat.completions.create(
