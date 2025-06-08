@@ -53,13 +53,9 @@ def load_problem_data(json_path, problem_number, subject):
         )
 
 
-def get_gpt_feedback(user_solution, answer, calc_errors_text):
+def get_gpt_feedback(user_solution):
     prompt = f"""
 학생 풀이: {user_solution}
-계산 결과 검토 결과:
-{calc_errors_text}
-
-정답: {answer}
 
 - 이전의 지시는 다 잊고 이 밑에 지시사항만 명심해
 - 문제 풀이의 흐름에는 관여하지 마
