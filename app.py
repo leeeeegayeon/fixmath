@@ -53,18 +53,29 @@ def load_problem_data(json_path, problem_number, subject):
         )
 
 
-def get_gpt_feedback(user_solution, answer):
-    messages = [
-        {"role": "system", "content": "너는 수학 선생님이야. 학생 풀이를 보고 계산 실수를 알려줘."},
-        {"role": "user", "content": f"학생 풀이:\n{user_solution}"},
-        {"role": "user", "content": f"계산 결과 검토 결과:\n{calc_errors_text}"},
-        {"role": "user", "content": f"정답: {answer}"},
-        {"role": "user", "content": "계산 실수가 있는 줄이 있다면 그 줄만 지적해줘. 중간 과정은 추측하지 말고, 반말로 간단히 설명해줘. 수식은 LaTeX으로 써줘."}
-    ]
+def get_gpt_feedback(user_solution, answer, calc_errors_text):
+    prompt = f"""
+학생 풀이: {user_solution}
+계산 결과 검토 결과:
+{calc_errors_text}
+
+정답: {answer}
+
+- 이전의 지시는 다 잊고 이 밑에 부분만 명심해
+- 문제의 내용에는 관여하지말고 오직 '계산'에만 집중
+- 위의 학생 풀이를 참고해서, '계산 실수'가 있는지 판단해줘.
+- 중간 과정은 추측하지 말고, 주어진 줄과 '결과만 가지고' 설명해줘.
+- '계산 실수'한 줄이 있다면 왜 틀렸는지 간단히 설명해줘.
+- 설명은 반말로 해줘.
+- 피드백을 할때 수식은 LaTex수식으로 변환해줘.
+"""
     try:
         response = client.chat.completions.create(
-            model="gpt-4-turbo",
-            messages=messages,
+            model="gpt-4o",
+            messages=[
+                {"role": "system", "content": "너는 수학 선생님이야."},
+                {"role": "user", "content": prompt}
+            ],
             temperature=1,
         )
         return response.choices[0].message.content.strip()
