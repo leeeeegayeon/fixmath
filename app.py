@@ -98,6 +98,7 @@ def get_gpt_feedback(user_solution, answer, calc_errors_text):
 - 중간 과정은 추측하지 말고, 주어진 줄과 결과만 가지고 설명해줘.
 - 실수한 줄이 있다면 왜 틀렸는지 간단히 설명해줘.
 - 설명은 반말로 해줘.
+- 피드백을 할때 수식은 LaTex수식으로 변환해줘.
 """
     try:
         response = client.chat.completions.create(
@@ -106,7 +107,7 @@ def get_gpt_feedback(user_solution, answer, calc_errors_text):
                 {"role": "system", "content": "너는 수학 선생님이야."},
                 {"role": "user", "content": prompt}
             ],
-            temperature=1,
+            temperature=0.2,
         )
         return response.choices[0].message.content.strip()
     except (AuthenticationError, RateLimitError, APIConnectionError) as e:
