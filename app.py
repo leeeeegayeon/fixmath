@@ -102,7 +102,7 @@ def get_gpt_feedback(user_solution, answer, calc_errors_text):
 """
     try:
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4-turbo",
             messages=[
                 {"role": "system", "content": "너는 수학 선생님이야."},
                 {"role": "user", "content": prompt}
