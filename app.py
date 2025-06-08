@@ -102,12 +102,12 @@ def get_gpt_feedback(user_solution, answer, calc_errors_text):
 """
     try:
         response = client.chat.completions.create(
-            model="gpt-4-turbo",
+            model="gpt-4o",
             messages=[
                 {"role": "system", "content": "너는 수학 선생님이야."},
                 {"role": "user", "content": prompt}
             ],
-            temperature=0.2,
+            temperature=1,
         )
         return response.choices[0].message.content.strip()
     except (AuthenticationError, RateLimitError, APIConnectionError) as e:
