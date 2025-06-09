@@ -50,20 +50,28 @@ def load_problem_data(json_path, problem_number, subject):
             (item for item in data if item['problem_number'] == problem_number and item['subject'] == subject),
             None
         )
-
-# 계산기: latex 수식 → sympy 수식 비교
+#계산기
 def check_calc_error(user_latex, correct_answers):
     try:
         user_expr = latex2sympy(user_latex)
+        print(f"[latex2sympy 변환 결과] {user_latex} -> {user_expr}")
+
         for correct in correct_answers:
             try:
                 correct_expr = sp.sympify(correct)
+                print(f"[정답 비교] {user_expr} vs {correct_expr}")
                 if sp.simplify(user_expr - correct_expr) == 0:
+                    print("=> 같음 (계산 정확함)")
                     return "계산 정확함", False
-            except:
+                else:
+                    print("=> 다름")
+            except Exception as e:
+                print(f"[정답 sympify 실패] {correct} → {e}")
                 continue
+
         return f"계산 결과가 다름. 입력식: {user_expr}", True
     except Exception as e:
+        print(f"[latex2sympy 실패] {user_latex} → {e}")
         return f"수식 분석 실패: {str(e)}", True
 
 def get_gpt_feedback(user_solution, answer, calc_errors_text):
