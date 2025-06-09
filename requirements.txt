@@ -3,3 +3,5 @@ python-dotenv
 openai
 requests
 gunicorn
+sympy
+latex2sympy2
