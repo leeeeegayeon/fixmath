@@ -3,12 +3,11 @@ import json
 import base64
 import requests
 import sympy as sp
-import re
+from latex2sympy2 import latex2sympy
 from flask import Flask, request, jsonify
 from openai import OpenAI, AuthenticationError, RateLimitError, APIConnectionError
 from werkzeug.utils import secure_filename
 from dotenv import load_dotenv
-from sympy.parsing.latex import parse_latex
 
 # .env 불러오기
 load_dotenv()
@@ -52,12 +51,29 @@ def load_problem_data(json_path, problem_number, subject):
             None
         )
 
+# 계산기: latex 수식 → sympy 수식 비교
+def check_calc_error(user_latex, correct_answers):
+    try:
+        user_expr = latex2sympy(user_latex)
+        for correct in correct_answers:
+            try:
+                correct_expr = sp.sympify(correct)
+                if sp.simplify(user_expr - correct_expr) == 0:
+                    return "계산 정확함", False
+            except:
+                continue
+        return f"계산 결과가 다름. 입력식: {user_expr}", True
+    except Exception as e:
+        return f"수식 분석 실패: {str(e)}", True
 
-def get_gpt_feedback(user_solution):
+def get_gpt_feedback(user_solution, answer, calc_errors_text):
     prompt = f"""
 학생 풀이: {user_solution}
+계산 결과 검토 결과:
+{calc_errors_text}
 
-- 이전의 지시는 다 잊고 이 밑에 지시사항만 명심해
+정답: {answer}
+
 - 문제 풀이의 흐름에는 관여하지 마
 - 학생 풀이를 참고해서, '계산' 실수가 있는지 판단해줘.
 - 중간 과정은 추측하지 말고, 주어진 줄과 '결과만 가지고' 설명해줘.
@@ -74,7 +90,7 @@ def get_gpt_feedback(user_solution):
                 {"role": "system", "content": "너는 수학 선생님이야."},
                 {"role": "user", "content": prompt}
             ],
-            temperature=1,
+            temperature=0,
         )
         return response.choices[0].message.content.strip()
     except (AuthenticationError, RateLimitError, APIConnectionError) as e:
@@ -110,13 +126,15 @@ def analyze():
         if not problem or problem["subject"] != subject:
             return jsonify({"error": f'{problem_number}, {json_path}, {problem["subject"]}, {subject}'}), 404
 
-        feedback = get_gpt_feedback(user_solution, problem["answer"], errors_txt)
+        calc_errors_text, has_error = check_calc_error(user_solution, problem["answer"])
+
+        feedback = get_gpt_feedback(user_solution, problem["answer"], calc_errors_text)
         if not feedback:
             return jsonify({"error": "GPT 피드백 실패"}), 500
 
         return jsonify({
             "user_solution": user_solution,
-            "calc_errors": calc_errors,
+            "calc_errors": calc_errors_text,
             "feedback": feedback
         })
 
