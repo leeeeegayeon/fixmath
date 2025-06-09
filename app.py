@@ -82,6 +82,8 @@ def get_gpt_feedback(user_solution, answer, calc_errors_text):
 - 피드백을 할때 수식은 LaTex수식으로 변환해줘.
 - 답변하기 전에 스스로 검토를 거쳐
 - 정답이면 다시풀어보라는 말은 하지 마
+- 앞부분에서 실수가 있다고 판단했다가, 뒤에서 아니라고 바꾸게 되면 반드시 그 말을 정정해
+- 모순되는 말을 하지 마. 처음 판단과 결론이 다르면 그 이유를 분명히 설명해
 """
     try:
         response = client.chat.completions.create(
