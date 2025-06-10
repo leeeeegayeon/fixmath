@@ -82,7 +82,7 @@ def get_gpt_feedback(user_solution, answer, calc_errors_text):
 계산 결과 검토:
 {calc_errors_text}
 
-문제 조건: problem["condition"]
+문제 조건: problem["solution_steps"]
 정답: {answer}
 
 지시
