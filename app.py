@@ -143,7 +143,7 @@ def analyze():
 
         calc_errors_text, has_error = check_calc_error(user_solution, problem["answer"])
 
-        feedback = get_gpt_feedback(user_solution, problem["answer"], calc_errors_text)
+        feedback = get_gpt_feedback(user_solution, problem["answer"], problem["solution_steps"], calc_errors_text)
         if not feedback:
             return jsonify({"error": "GPT 피드백 실패"}), 500
 
