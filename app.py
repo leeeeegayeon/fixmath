@@ -74,9 +74,9 @@ def check_calc_error(user_latex, correct_answers):
         print(f"[latex2sympy 실패] {user_latex} → {e}")
         return f"수식 분석 실패: {str(e)}", True
 
-def get_gpt_feedback(user_solution, answer, calc_errors_text):
+def get_gpt_feedback(user_solution, answer, condition, calc_errors_text):
     prompt = f"""
-    문제 조건: {problem["solution_steps"]}
+    문제 조건: {condition}
 학생 풀이:
 {user_solution}
     
