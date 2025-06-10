@@ -76,7 +76,7 @@ def check_calc_error(user_latex, correct_answers):
 
 def get_gpt_feedback(user_solution, answer, calc_errors_text):
     prompt = f"""
-문제 조건: {problem["solution_steps"]}
+    문제 조건: {problem["solution_steps"]}
 학생 풀이:
 {user_solution}
     
