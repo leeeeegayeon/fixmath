@@ -549,7 +549,6 @@
   "answer": ["-4"],
   "method": "매개변수로 표현된 함수의 미분 - 체인 룰 활용",
   "solution_steps": [
-    "t=2"
   ],
   "feedback_criteria": [
     "dx/dt와 dy/dt 계산이 정확히 이루어졌는가?",
