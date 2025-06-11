@@ -84,10 +84,12 @@ def get_gpt_feedback(user_solution, answer, condition, calc_errors_text):
 {calc_errors_text}
     
 정답: {answer}
-    
+
 지시
 - 문제 의도·해법을 절대 추측하지 마. 문제 원문은 네가 모르는거야.
-- 학생 풀이에 적힌 식과 그 결과만 보고 '계산 실수 여부'를 판단해.
+- 문제 조건({condition})도 마찬가지야. 참고만 하고, 조건을 근거로 문제를 유추하거나 풀이의 의미를 절대 해석하려 하지 마.
+- 계산 실수 판단은 오직 풀이에 적힌 식과 그 계산 결과만 보고 해.
+- 풀이가 여러 줄이면 위에서 아래로 순서대로 읽고, 끝까지 읽은 뒤에는 오른쪽 위로 올라가 다시 위→아래로 읽어.
 - 각 줄을 개별적으로 계산해 보고, 실수한 줄만 짚어 줘.
 - 실수가 없다면 “계산 실수 없어” 정도로 짧게 끝내. 맞은 이유를 줄줄이 설명하지 마.
 - 실수가 있으면 그 줄을 보여 주고 왜 틀렸는지만 '간단히' 설명해.
@@ -97,6 +99,7 @@ def get_gpt_feedback(user_solution, answer, condition, calc_errors_text):
 - 수식은 LaTeX 형식으로 써.
 - 답변 전에 스스로 검토해. 앞뒤 판단이 바뀌면 반드시 정정해.
 - 앞부분에서 실수라고 판단했다가 뒤에서 맞다고 판단이 바뀌면 반드시 그걸 명확히 정정해.
+
 """
     try:
         response = client.chat.completions.create(
