@@ -396,7 +396,7 @@
   "method": "미분과 적분의 성질을 이용한 함수 추정 및 대입 계산",
   "solution_steps": [
     "∫₁ˣ f(t) dt=xf(x)-2x²-1",
-    "f(x)G(x)+F(x)g(x)=8x³ + 3x² + 1
+    "f(x)G(x)+F(x)g(x)=8x³ + 3x² + 1"
   ],
   "feedback_criteria": [
     "조건 (가)의 미분을 올바르게 수행했는가?",
@@ -614,7 +614,7 @@
   "method": "등차수열과 등비수열의 일반항을 이용하여 급수의 합을 나누어 계산",
   "solution_steps": [
     "d > 0",
-    "a₁ = b₁ = 1,
+    "a₁ = b₁ = 1",
     "a₂b₂ = 1"
   ],
   "feedback_criteria": [
