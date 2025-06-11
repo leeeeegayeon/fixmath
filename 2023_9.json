@@ -567,7 +567,6 @@
   "answer": ["-1"],
   "method": "매개변수 함수의 미분법 dy/dx = (dy/dt) / (dx/dt) 이용",
   "solution_steps": [
-    "t = (π/4)"
   ],
   "feedback_criteria": [
     "매개변수 함수의 도함수 계산을 정확히 수행했는가?",
