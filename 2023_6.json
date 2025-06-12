@@ -172,7 +172,7 @@
   "answer": ["4/3"],
   "method": "정적분을 이용한 곡선과 x축 사이 넓이 계산",
   "solution_steps": [
-    "k>0"
+    "k>0",
     "OP<OQ"
   ],
   "feedback_criteria": [
