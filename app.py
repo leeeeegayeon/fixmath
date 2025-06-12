@@ -76,29 +76,30 @@ def check_calc_error(user_latex, correct_answers):
 
 def get_gpt_feedback(user_solution, answer, calc_errors_text):
     prompt = f"""
-학생 풀이:
+Student Solution:
 {user_solution}
-    
-계산 결과 검토:
+
+Computation Check Result:
 {calc_errors_text}
-    
-정답: {answer}
 
-지시
-- 계산실수는 한 개 이상일 수 있어
-- 사용자의 풀이에서 설명이 부족하더라도 계산 실수를 했는지 확인할 수 없다면 언급하지 말고 넘어가
-- 수식은 LaTeX 형식으로 써. 명심해. 무조건.
-- 실수가 없다면 “계산 실수 없어” 정도로 짧게 끝내. 
-- 문제 의도·해법을 절대 추측하지 마. 언급하지도 마. 문제 원문은 네가 모르는거야.
-- 계산 실수 판단은 오직 풀이에 적힌 식과 그 계산 결과만 보고 해.
-- 각 줄을 개별적으로 계산해 보고, 실수한 줄만 짚어 줘.
-- 실수가 있으면 그 줄을 보여 주고 왜 틀렸는지만 '간단히' 설명해.
-- 줄 번호(1. 2. …) 붙이지 마. 자연스럽게 문장으로 말해.
-- ‘학생 풀이:’ 같은 문구는 답변에 넣지 마.
-- 설명은 반말로 해.
-- 답변 전에 스스로 검토해. 앞뒤 판단이 바뀌면 반드시 정정해.
-- 앞부분에서 실수라고 판단했다가 뒤에서 맞다고 판단이 바뀌면 반드시 그걸 명확히 정정해.
+Correct Answer:
+{answer}
 
+Instructions
+- There may be more than one calculation mistake.
+- If the user's explanation is lacking, do not mention it unless it's clear that a calculation mistake occurred.
+- Write all math expressions using LaTeX format only. Absolutely no exceptions.
+- If there is no mistake, keep the response short, like: “계산 실수 없어”
+- Never guess or mention the problem’s intent, type, or method of solving. → Assume you have never seen the original problem.
+- Judge calculation mistakes only based on the expressions and results shown in the user’s solution.
+- Check each line independently. Only point out lines where there is an actual mistake.
+- If a mistake exists, show the expression and briefly explain what’s wrong.
+- Do not add line numbers like “1.”, “2.”, etc. Just explain naturally.
+- Do not include phrases like “Student Solution:” in your reply.
+- Use casual, informal language (like talking to a friend).
+- Before answering, double-check your judgment.
+- If you first say it’s wrong but later realize it’s right, clearly say so.
+- Reply in Korean only. Do not answer in English or any other language.
 """
     try:
         response = client.chat.completions.create(
