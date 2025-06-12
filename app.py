@@ -139,8 +139,12 @@ def analyze():
         user_solution = mathpix_ocr(save_path)
 
         problem = load_problem_data(json_path, problem_number, subject)
-        if not problem or problem["subject"] != subject:
-            return jsonify({"error": f'{problem_number}, {json_path}, {problem["subject"]}, {subject}'}), 404
+
+        if not problem:
+            return jsonify({"error": f'{problem_number}, {json_path} 에서 문제를 찾을 수 없습니다'}), 404
+
+        if problem["subject"] != subject:
+            return jsonify({"error": f'과목 불일치: {problem["subject"]} vs {subject}'}), 404
 
         calc_errors_text, has_error = check_calc_error(user_solution, problem["answer"])
 
