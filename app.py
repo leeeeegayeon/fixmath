@@ -153,7 +153,8 @@ def analyze():
         return jsonify({
             "user_solution": user_solution,
             "calc_errors": calc_errors_text,
-            "feedback": feedback
+            "feedback": feedback,
+            "json_path": json_path
         })
 
     except Exception as e:
