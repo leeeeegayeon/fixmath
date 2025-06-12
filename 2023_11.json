@@ -432,7 +432,6 @@
   "answer": ["13/8"],
   "method": "확률변수 X의 분포를 통해 Y의 기대값 E(Y)를 계산함",
   "solution_steps": [
-    "
   ],
   "feedback_criteria": [
     "이항분포에서 확률을 정확히 계산했는가?",
