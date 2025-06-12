@@ -154,7 +154,7 @@
   "answer": ["10/21"],
   "method": "수열의 점화식 유도 및 망각합 활용",
   "solution_steps": [
-    "n>0"
+    "n>0",
     "Σ_{k=1}^n [1/(2k-1)a_k] = n^2 + 2n"
   ],
   "feedback_criteria": [
