@@ -284,7 +284,7 @@
   "subject": "공통",
   "question": "방정식 log₂(x − 1) = log₄(13 + 2x)를 만족시키는 실수 x의 값을 구하시오.",
   "options": [],
-  "correct_option": null,
+  "correct_option": [],
   "answer": ["6"],
   "method": "로그의 밑 변환과 방정식 정리 후 이차방정식 풀이",
   "solution_steps": [
