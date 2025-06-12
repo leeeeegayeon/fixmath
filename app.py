@@ -74,9 +74,8 @@ def check_calc_error(user_latex, correct_answers):
         print(f"[latex2sympy 실패] {user_latex} → {e}")
         return f"수식 분석 실패: {str(e)}", True
 
-def get_gpt_feedback(user_solution, answer, condition, calc_errors_text):
+def get_gpt_feedback(user_solution, answer, calc_errors_text):
     prompt = f"""
-    문제 조건: {condition}
 학생 풀이:
 {user_solution}
     
@@ -87,7 +86,6 @@ def get_gpt_feedback(user_solution, answer, condition, calc_errors_text):
 
 지시
 - 문제 의도·해법을 절대 추측하지 마. 문제 원문은 네가 모르는거야.
-- 문제 조건({condition})도 마찬가지야. 참고만 하고, 조건을 근거로 문제를 유추하거나 풀이의 의미를 절대 해석하려 하지 마.
 - 계산 실수 판단은 오직 풀이에 적힌 식과 그 계산 결과만 보고 해.
 - 풀이가 여러 줄이면 위에서 아래로 순서대로 읽고, 끝까지 읽은 뒤에는 오른쪽 위로 올라가 다시 위→아래로 읽어.
 - 각 줄을 개별적으로 계산해 보고, 실수한 줄만 짚어 줘.
@@ -146,15 +144,14 @@ def analyze():
 
         calc_errors_text, has_error = check_calc_error(user_solution, problem["answer"])
 
-        feedback = get_gpt_feedback(user_solution, problem["answer"], problem["solution_steps"], calc_errors_text)
+        feedback = get_gpt_feedback(user_solution, problem["answer"], calc_errors_text)
         if not feedback:
             return jsonify({"error": "GPT 피드백 실패"}), 500
 
         return jsonify({
             "user_solution": user_solution,
             "calc_errors": calc_errors_text,
-            "feedback": feedback,
-            "json_path": json_path
+            "feedback": feedback
         })
 
     except Exception as e:
