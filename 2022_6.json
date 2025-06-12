@@ -344,7 +344,8 @@
   "correct_option": "없음 (서술형)",
   "answer": ["3"],
   "method": "시그마 성질을 활용하여 식을 정리하고 항등식으로부터 a 값을 추론",
-  "solution_steps": [],
+  "solution_steps": [
+  ],
   "feedback_criteria": [
     "시그마 분리법칙 ∑(A + B) = ∑A + ∑B를 정확히 적용했는가?",
     "등차수열의 합 공식 ∑k = n(n+1)/2를 정확히 썼는가?",
