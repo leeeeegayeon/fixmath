@@ -86,6 +86,7 @@ Correct Answer:
 {answer}
 
 Instructions
+- Only comment on lines with actual miscalculations.
 - There may be more than one calculation mistake.
 - If the user's explanation is lacking, do not mention it unless it's clear that a calculation mistake occurred.
 - Write all math expressions using LaTeX format only. Absolutely no exceptions.
