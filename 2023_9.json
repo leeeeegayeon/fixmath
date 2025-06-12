@@ -109,7 +109,7 @@
   "method": "로그 성질 및 대수적 치환을 통한 식 정리",
   "solution_steps": [
     "3a + 2b = log₃(32)",
-    "ab = log₉2 ",
+    "ab = log₉2 "
   ],
   "feedback_criteria": [
     "로그 성질 (밑변환, 지수 로그 변환) 사용이 적절했는가?",
