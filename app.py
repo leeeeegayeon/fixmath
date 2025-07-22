@@ -40,7 +40,7 @@ def mathpix_ocr(image_path):
         },
         'rm_spaces': True,         # 공백 제거
         'math_inline': False,      # 수식은 블록 형태로
-        'include_latex': True      # LaTeX 결과 명시적 포함
+        'include_latex': True,      # LaTeX 결과 명시적 포함
         'ocr': ['math', 'text']
     }
 
