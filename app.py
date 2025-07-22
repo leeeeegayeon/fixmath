@@ -35,6 +35,12 @@ def mathpix_ocr(image_path):
     data = {
         'src': f'data:image/png;base64,{image_base64}',
         'formats': ['latex_styled'],
+        'ocr_options': {
+            'handwriting': True  # 손글씨 인식 강화
+        },
+        'rm_spaces': True,         # 공백 제거
+        'math_inline': False,      # 수식은 블록 형태로
+        'include_latex': True      # LaTeX 결과 명시적 포함
         'ocr': ['math', 'text']
     }
 
