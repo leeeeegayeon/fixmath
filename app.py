@@ -46,7 +46,11 @@ def mathpix_ocr(image_path):
 
     response = requests.post('https://api.mathpix.com/v3/text', headers=headers, json=data)
     result = response.json()
-    return result.get("latex_styled", "").strip()
+    latex = result.get("latex_styled", "").strip()
+    if not latex:
+        latex = result.get("text", "").strip()
+
+    return latex
 
 # 문제 데이터 로드
 def load_problem_data(json_path, problem_number, subject):
