@@ -34,7 +34,7 @@ def mathpix_ocr(image_path):
 
     data = {
         'src': f'data:image/png;base64,{image_base64}',
-        'formats': ['latex_styled'],
+        'formats': ['latex_styled', 'text'],
         'ocr_options': {
             'handwriting': True  # 손글씨 인식 강화
         },
