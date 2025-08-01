@@ -183,22 +183,20 @@ def get_gpt_feedback(user_solution, answer, calc_errors_text):
 정답:
 {answer}
 
-피드백 지침
+[피드백 지침]
 1. 계산 실수는 한 줄 이상 있을 수 있어.
 2. 명확한 계산 실수가 보이지 않으면 지적하지마.
-3. 수학식은 무조건 LaTeX형식으로만 작성해. 
+3. 수학식은 무조건 LaTeX형식으로만 추출해. 
 4. 실수가 없다면 짧게 "계산 실수 없어" 이렇게만 말해.
-5. 문제의 의도가 풀이 방식 등은 추론하지마.
-6. 오직 사용자 풀이에 적힌 수식과 결과만 보고 계산실수를 판단해.
-7. 줄마다 따로따로 확인하고 실수가 있는 줄만 지적해.
-8. 실수가 있는 줄이 있다면 그 줄의 수식을 보여주고 간단히 뭐가 틀렸는지 설명해.
-9. "1번 줄에서, 2번 줄에서" 같은 줄 번호나 표현은 절대 쓰지 마.
-10. "여기서"나 "이 줄에서" 같은 말도 쓰지 마. 
-11. 계산 실수가 있을 경우만 설명해.
-12. "학생 풀이:" 같은 말은 절대 쓰지 마.
-13. 실수라고 생각했다가 다시 보니 맞는 경우라면 그 사실을 솔직하게 밝혀줘.
-14. 친구한테 말하듯이 자연스럽고 편한 말투로 설명해.
-15. 채점하기 전에 반드시 한 번 더 확인하고 답변해.
+5. 문제의 의도나 풀이 방식 등은 추론하지마.
+6. 사용자 풀이에 적힌 수식의 흐름만 보고 계산실수를 판단해.
+7. 실수가 있는 줄이 있다면 그 줄의 수식을 보여주고 간단히 뭐가 틀렸는지 설명해.
+8. "1번 줄에서, 2번 줄에서" 같은 줄 번호나 표현은 절대 쓰지 마.
+9. "여기서"나 "이 줄에서" 같은 말도 쓰지 마. 
+10. 계산 실수가 있을 경우만 설명해.
+11. "학생 풀이:" 같은 말은 절대 쓰지 마.
+12. 친구한테 말하듯이 자연스럽고 편한 말투로 설명해.
+13. 채점하기 전에 반드시 한 번 더 확인하고 답변해.
 """
     try:
         response = client.chat.completions.create(
@@ -207,11 +205,8 @@ def get_gpt_feedback(user_solution, answer, calc_errors_text):
                 {"role": "system", "content": "너는 수학 선생님이야."},
                 {"role": "user", "content": prompt}
             ],
-            temperature=0,
-            top_p=0.8,
-            stop=["\n\n"],
-            presence_penalty=0.2,
-            frequency_penalty=0.5
+            temperature=0.1,
+            top_p=0.8
         )
         return response.choices[0].message.content.strip()
     except (AuthenticationError, RateLimitError, APIConnectionError) as e:
