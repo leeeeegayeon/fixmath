@@ -1,0 +1,192 @@
+[
+{
+  "problem_number": 1,
+  "subject": "S1",
+  "answer": ["(5)","3/2"]
+},
+{
+  "problem_number": 2,
+  "subject": "S1",
+  "answer": ["(4)","4"]
+},
+{
+  "problem_number": 3,
+  "subject": "S1",
+  "answer": ["(2)","15"]
+},
+{
+  "problem_number": 4,
+  "subject": "S1",
+  "answer": ["(2)","2"]
+},
+{
+  "problem_number": 5,
+  "subject": "S1",
+  "answer": ["(1)","12"]
+},
+{
+  "problem_number": 6,
+  "subject": "S1",
+  "answer": ["(4)","2^(1/2)/10"]
+},
+{
+  "problem_number": 7,
+  "subject": "S1",
+  "answer": ["(3)","8"]
+},
+{
+  "problem_number": 8,
+  "subject": "S1",
+  "answer": ["(3)","3"]
+},
+{
+  "problem_number": 9,
+  "subject": "S1",
+  "answer": ["(1)","10/21"]
+},
+{
+  "problem_number": 10,
+  "subject": "S1",
+  "answer": ["(2)","4/3"]
+},
+{
+  "problem_number": 11,
+  "subject": "S1",
+  "answer": ["(3)","2*2^(1/2)"]
+},
+{
+  "problem_number": 12,
+  "subject": "S1",
+  "answer": ["(5)","46"]
+},
+{
+  "problem_number": 13,
+  "subject": "S1",
+  "answer": ["(1)","21^(1/2)"]
+},
+{
+  "problem_number": 14,
+  "subject": "S1",
+  "answer": ["(3)","4/15"]
+},
+{
+  "problem_number": 15,
+  "subject": "S1",
+  "answer": ["(2)","14"]
+},
+{
+  "problem_number": 16,
+  "subject": "S1",
+  "answer": ["3"]
+},
+{
+  "problem_number": 17,
+  "subject": "S1",
+  "answer": ["33"]
+},
+{
+  "problem_number": 18,
+  "subject": "S1",
+  "answer": ["6"]
+},
+{
+  "problem_number": 19,
+  "subject": "S1",
+  "answer": ["8"]
+},
+{
+  "problem_number": 20,
+  "subject": "S1",
+  "answer": ["39"]
+},
+{
+  "problem_number": 21,
+  "subject": "S1",
+  "answer": ["110"]
+},
+{
+  "problem_number": 22,
+  "subject": "S1",
+  "answer": ["380"]
+},
+{
+  "problem_number": 23,
+  "subject": "S3",
+  "answer": ["(3)","60"]
+},
+{
+  "problem_number": 24,
+  "subject": "S3",
+  "answer": ["(4)","13/18"]
+},
+{
+  "problem_number": 25,
+  "subject": "S3",
+  "answer": ["(3)","9/14"]
+},
+{
+  "problem_number": 26,
+  "subject": "S3",
+  "answer": ["(1)","15"]
+},
+{
+  "problem_number": 27,
+  "subject": "S3",
+  "answer": ["(2)","7/15"]
+},
+{
+  "problem_number": 28,
+  "subject": "S3",
+  "answer": ["(5)","144"]
+},
+{
+  "problem_number": 29,
+  "subject": "S3",
+  "answer": ["29"]
+},
+{
+  "problem_number": 30,
+  "subject": "S3",
+  "answer": ["51"]
+},
+{
+  "problem_number": 23,
+  "subject": "S2",
+  "answer": ["(5)","5/2"]
+},
+{
+  "problem_number": 24,
+  "subject": "S2",
+  "answer": ["(4)","-4"]
+},
+{
+  "problem_number": 25,
+  "subject": "S2",
+  "answer": ["(1)","9"]
+},
+{
+  "problem_number": 26,
+  "subject": "S2",
+  "answer": ["(2)","-33/4"]
+},
+{
+  "problem_number": 27,
+  "subject": "S2",
+  "answer": ["(3)","1/4"]
+},
+{
+  "problem_number": 28,
+  "subject": "S2",
+  "answer": ["(2)","-7/64"]
+},
+{
+  "problem_number": 29,
+  "subject": "S2",
+  "answer": ["(4)","4"]
+},
+{
+  "problem_number": 30,
+  "subject": "S2",
+  "answer": ["(5)","24"]
+}
+]
