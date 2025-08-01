@@ -187,7 +187,7 @@ def get_gpt_feedback(user_solution, answer, calc_errors_text):
 - 수학식은 무조건 LaTeX형식으로만 작성해. 
 - 실수가 없다면 짧게 '계산 실수 없어' 이렇게만 말해.
 - 문제의 의도나 풀이 방식 등은 추론하지마.
-- 실수가 있는 줄이 있다면 그 줄의 수식을 보여주고 간단히 뭐가 틀렸는지 설명해.
+- 실수가 있는 줄이 있다면 간단히 뭐가 틀렸는지 설명해.
 - '학생 풀이:' 같은 말은 절대 쓰지 마.
 - 친절한 말투로 설명해.
 """
@@ -198,11 +198,8 @@ def get_gpt_feedback(user_solution, answer, calc_errors_text):
                 {"role": "system", "content": "너는 수학 선생님이야."},
                 {"role": "user", "content": prompt}
             ],
-            temperature=0,
-            top_p=0.8,
-            stop=["\n\n"],
-            presence_penalty=0.2,
-            frequency_penalty=0.5
+            temperature=0.2,
+            top_p=0.8
         )
         return response.choices[0].message.content.strip()
     except (AuthenticationError, RateLimitError, APIConnectionError) as e:
