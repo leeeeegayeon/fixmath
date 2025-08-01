@@ -190,6 +190,7 @@ def get_gpt_feedback(user_solution, answer, calc_errors_text):
 - 실수가 있는 줄이 있다면 간단히 뭐가 틀렸는지 설명해.
 - '학생 풀이:' 같은 말은 절대 쓰지 마.
 - 친절한 말투로 설명해.
+- ' x = 5에서 계산 실수 있어. 2x = 9면 x는 4.5야.' 처럼 답변해줘.
 """
     try:
         response = client.chat.completions.create(
@@ -198,7 +199,7 @@ def get_gpt_feedback(user_solution, answer, calc_errors_text):
                 {"role": "system", "content": "너는 수학 선생님이야."},
                 {"role": "user", "content": prompt}
             ],
-            temperature=0.2,
+            temperature=0.1,
             top_p=0.8
         )
         return response.choices[0].message.content.strip()
