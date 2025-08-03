@@ -105,7 +105,7 @@ def extract_all_used_variables(lines):
 # 계산 실수 검출
 def check_calc_error(user_latex, correct_answers, problem_known_vars=None):
     try:
-        lines = [line.strip() for line in user_latex.split('\\\') if line.strip()]
+        lines = [line.strip() for line in user_latex.split('\\\\') if line.strip()]
         defined_vars = {}
         for line in reversed(lines):
             defs = extract_variable_definitions_from_latex(line)
@@ -235,3 +235,4 @@ def read_root():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
