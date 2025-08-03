@@ -13,7 +13,7 @@
   "problem_number": 3,
   "subject": "s1",
   "correct_option": "②",
-  "answer": ["(2),"-(2^(1/2))/2"]
+  "answer": ["(2)","-(2^(1/2))/2"]
 },
 {
   "problem_number": 4,
@@ -193,3 +193,4 @@
   "answer": ["32"]
 }
 ]
+
