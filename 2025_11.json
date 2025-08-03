@@ -117,7 +117,7 @@
   {
     "problem_number": 18,
     "subject": "S1",
-    "answer": ["96"],
+    "answer": ["96"]
   },
   {
     "problem_number": 19,
@@ -251,4 +251,5 @@
       "17"
     ]
   }
+
 ]
