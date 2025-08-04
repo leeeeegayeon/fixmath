@@ -1,0 +1,268 @@
+[
+  {
+    "problem_number": 1,
+    "subject": "S1",
+    "answer": [
+      "(4)","((5)^(1/2))"
+    ]
+  },
+  {
+    "problem_number": 2,
+    "subject": "S1",
+    "answer": [
+      "(5)","5"
+    ]
+  },
+  {
+    "problem_number": 3,
+    "subject": "S1",
+    "answer": [
+      "(3)","8"
+    ]
+  },
+  {
+    "problem_number": 4,
+    "subject": "S1",
+    "answer": [
+      "(3)","3"
+    ]
+  },
+  {
+    "problem_number": 5,
+    "subject": "S1",
+    "answer": [
+      "(5)","10"
+    ]
+  },
+  {
+    "problem_number": 6,
+    "subject": "S1",
+    "answer": [
+      "(1)","-4/5"
+    ]
+  },
+  {
+    "problem_number": 7,
+    "subject": "S1",
+    "answer": [
+      "(4)","22"
+    ]
+  },
+  {
+    "problem_number": 8,
+    "subject": "S1",
+    "answer": [
+      "(1)","-5/2"
+    ]
+  },
+  {
+    "problem_number": 9,
+    "subject": "S1",
+    "answer": [
+      "(3)","-5/4"
+    ]
+  },
+  {
+    "problem_number": 10,
+    "subject": "S1",
+    "answer": [
+      "(5)","(64/9)*(2^(1/2))"
+    ]
+  },
+  {
+    "problem_number": 11,
+    "subject": "S1",
+    "answer": [
+      "(5)","-5"
+    ]
+  },
+  {
+    "problem_number": 12,
+    "subject": "S1",
+    "answer": [
+      "(3)","[(7/2)*(\\log_2 3)]-(7/4)"
+    ]
+  },
+  {
+    "problem_number": 13,
+    "subject": "S1",
+    "answer": [
+      "(3)","-4/3"
+    ]
+  },
+  {
+    "problem_number": 14,
+    "subject": "S1",
+    "answer": [
+      "(4)","9"
+    ]
+  },
+  {
+    "problem_number": 15,
+    "subject": "S1",
+    "answer": [
+      "(2)","5-(6^(1/2))"
+    ]
+  },
+  {
+    "problem_number": 16,
+    "subject": "S1",
+    "answer": [
+      "7"
+    ]
+  },
+  {
+    "problem_number": 17,
+    "subject": "S1",
+    "answer": [
+      "23"
+    ]
+  },
+  {
+    "problem_number": 18,
+    "subject": "S1",
+    "answer": [
+      "2"
+    ]
+  },
+  {
+    "problem_number": 19,
+    "subject": "S1",
+    "answer": [
+      "16"
+    ]
+  },
+  {
+    "problem_number": 20,
+    "subject": "S1",
+    "answer": [
+      "24"
+    ]
+  },
+  {
+    "problem_number": 21,
+    "subject": "S1",
+    "answer": [
+      "15"
+    ]
+  },
+  {
+    "problem_number": 22,
+    "subject": "S1",
+    "answer": [
+      "231"
+    ]
+  },
+  {
+    "problem_number": 23,
+    "subject": "S3",
+    "answer": [
+      "(3)","12"
+    ]
+  },
+  {
+    "problem_number": 24,
+    "subject": "S3",
+    "answer": [
+      "(2)","5/12"
+    ]
+  },
+  {
+    "problem_number": 25,
+    "subject": "S3",
+    "answer": [
+      "(4)","40"
+    ]
+  },
+  {
+    "problem_number": 26,
+    "subject": "S3",
+    "answer": [
+      "(3)","21/32"
+    ]
+  },
+  {
+    "problem_number": 27,
+    "subject": "S3",
+    "answer": [
+      "(1)","72"
+    ]
+  },
+  {
+    "problem_number": 28,
+    "subject": "S3",
+    "answer": [
+      "(1)","17/32"
+    ]
+  },
+  {
+    "problem_number": 29,
+    "subject": "S3",
+    "answer": [
+      "6"
+    ]
+  },
+  {
+    "problem_number": 30,
+    "subject": "S3",
+    "answer": [
+      "108"
+    ]
+  },
+  {
+    "problem_number": 23,
+    "subject": "S2",
+    "answer": [
+      "(2)","2"
+    ]
+  },
+  {
+    "problem_number": 24,
+    "subject": "S2",
+    "answer": [
+      "(3)","3/2"
+    ]
+  },
+  {
+    "problem_number": 25,
+    "subject": "S2",
+    "answer": [
+      "(3)","21/4"
+    ]
+  },
+  {
+    "problem_number": 26,
+    "subject": "S2",
+    "answer": [
+      "(2)","(5/2)*((5^(1/2)) - 1)"
+    ]
+  },
+  {
+    "problem_number": 27,
+    "subject": "S2",
+    "answer": [
+      "(2)","(e^(1/2))"
+    ]
+  },
+  {
+    "problem_number": 28,
+    "subject": "S2",
+    "answer": [
+      "(4)","(8*(e^6))"
+    ]
+  },
+  {
+    "problem_number": 29,
+    "subject": "S2",
+    "answer": [
+      "55"
+    ]
+  },
+  {
+    "problem_number": 30,
+    "subject": "S2",
+    "answer": [
+      "25"
+    ]
+  }
+]
